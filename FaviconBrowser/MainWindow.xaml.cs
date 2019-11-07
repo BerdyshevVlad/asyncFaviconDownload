@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -19,7 +20,6 @@ namespace FaviconBrowser
     {
         private static readonly List<string> s_Domains = new List<string>
                                                              {
-                                                                 "google.com",
                                                                  "bing.com",
                                                                  "facebook.com",
                                                                  "reddit.com",
@@ -34,61 +34,74 @@ namespace FaviconBrowser
 
         private void GetButton_OnClick(object sender, RoutedEventArgs e)
         {
+            WebClient webClientGoogle = new WebClient();
+            var googleImage = webClientGoogle.DownloadData(new Uri("http://google.com/favicon.ico"));
+            Image imageControl = MakeImageControl(googleImage);
+            m_WrapPanel.Children.Add(imageControl);
+
             foreach (string domain in s_Domains)
             {
                 AddAFavicon(domain);
             }
         }
 
-        ////ordered
-        //private void GetButton_OnClick(object sender, RoutedEventArgs e)
-        //{
-        //    AddRemainingFavicons(s_Domains, 0);
-        //}
 
-        ////ordered
-        //private void AddRemainingFavicons(List<string> domains, int i)
+        //async 
+        //private async Task AddAFavicon(string domain)
         //{
         //    WebClient webClient = new WebClient();
-        //    webClient.DownloadDataCompleted += (o, args) =>
-        //    {
-        //        Image imageControl = MakeImageControl(args.Result);
-        //        m_WrapPanel.Children.Add(imageControl);
+        //    Task<byte[]> myTask = webClient.DownloadDataTaskAsync("http://" + domain + "/favicon.ico");
 
-        //        if (i + 1 < domains.Count)
-        //        {
-        //            AddRemainingFavicons(domains, i + 1);
-        //        }
-        //    };
-        //    webClient.DownloadDataAsync(new Uri("http://" + domains[i] + "/favicon.ico"));
+        //    // Здесь можно что-то сделать
+        //    WebClient webClientGoogle = new WebClient();
+        //    var googleImage = webClientGoogle.DownloadData(new Uri("http://google.com/favicon.ico"));
+        //    Image imageControl = MakeImageControl(googleImage);
+        //    m_WrapPanel.Children.Add(imageControl);
+
+        //    byte[] page = await myTask;
+        //    imageControl = MakeImageControl(page);
+        //    m_WrapPanel.Children.Add(imageControl);
         //}
 
-
-        //один поток для выполнения кода, второй поток - очередь выполнения. Идет выполнение в одном потоке, когда код проходит строку 73- m_WrapPanel.Children.Add(imageControl); в очередь выполнения добавляется изменения по отрисовке компонентов. Но т.к. это синхронное выполнение, то необходимо дождаться завершения кода (загрузки всех картинок), а потом отработает отрисовка(из очереди выполнения).
         private void AddAFavicon(string domain)
         {
             WebClient webClient = new WebClient();
-            byte[] bytes = webClient.DownloadData("http://" + domain + "/favicon.ico");
-            Image imageControl = MakeImageControl(bytes);
+            webClient.DownloadDataCompleted += OnWebClientOnDownloadDataCompleted;
+
+            // Здесь можно что-то сделать
+            WebClient webClientGoogle = new WebClient();
+            var googleImage = webClientGoogle.DownloadData(new Uri("http://google.com/favicon.ico"));
+            Image imageControl = MakeImageControl(googleImage);
             m_WrapPanel.Children.Add(imageControl);
+
+            webClient.DownloadDataAsync(new Uri("http://" + domain + "/favicon.ico"));
+
+            imageControl = MakeImageControl(googleImage);
+            m_WrapPanel.Children.Add(imageControl);
+            imageControl = MakeImageControl(googleImage);
+            m_WrapPanel.Children.Add(imageControl);
+            imageControl = MakeImageControl(googleImage);
+            m_WrapPanel.Children.Add(imageControl);
+            imageControl = MakeImageControl(googleImage);
+            m_WrapPanel.Children.Add(imageControl);
+            imageControl = MakeImageControl(googleImage);
+            m_WrapPanel.Children.Add(imageControl);
+            imageControl = MakeImageControl(googleImage);
+            m_WrapPanel.Children.Add(imageControl);
+            imageControl = MakeImageControl(googleImage);
+            m_WrapPanel.Children.Add(imageControl);
+            imageControl = MakeImageControl(googleImage);
+            m_WrapPanel.Children.Add(imageControl);
+            imageControl = MakeImageControl(googleImage);
         }
 
 
-        ////async 
-        //private void AddAFavicon(string domain)
-        //{
-        //    ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls;
-        //    WebClient webClient = new WebClient();
-        //    webClient.DownloadDataCompleted += OnWebClientOnDownloadDataCompleted;
-        //    webClient.DownloadDataAsync(new Uri("http://" + domain + "/favicon.ico"));
-        //}
-
-//        private void OnWebClientOnDownloadDataCompleted(object sender,
-//DownloadDataCompletedEventArgs args)
-//        {
-//            Image imageControl = MakeImageControl(args.Result);
-//            m_WrapPanel.Children.Add(imageControl);
-//        }
+        private void OnWebClientOnDownloadDataCompleted(object sender,
+DownloadDataCompletedEventArgs args)
+        {
+            Image imageControl = MakeImageControl(args.Result);
+            m_WrapPanel.Children.Add(imageControl);
+        }
 
         private static Image MakeImageControl(byte[] bytes)
         {
