@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 11
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaviconBrowser", "FaviconBrowser\FaviconBrowser.csproj", "{FF26F65E-0DF6-4DC9-B37A-7CB5387244ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deadlock", "Deadlock\Deadlock.csproj", "{FB00BDCA-BC21-4A77-AB03-58443D06B0FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +17,15 @@ Global
 		{FF26F65E-0DF6-4DC9-B37A-7CB5387244ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF26F65E-0DF6-4DC9-B37A-7CB5387244ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF26F65E-0DF6-4DC9-B37A-7CB5387244ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB00BDCA-BC21-4A77-AB03-58443D06B0FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB00BDCA-BC21-4A77-AB03-58443D06B0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB00BDCA-BC21-4A77-AB03-58443D06B0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB00BDCA-BC21-4A77-AB03-58443D06B0FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3BE10FFB-84A4-4D96-A75C-29C275F4F32B}
 	EndGlobalSection
 EndGlobal
